@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch, Mock
 import requests
-from scraping import get_famous_peoples, get_famous_peoples_text
+from scraping import get_famous_peoples, get_famous_peoples_text, get_famous_people_text
 
 class TestScraping(unittest.TestCase):
 
@@ -23,7 +23,7 @@ class TestScraping(unittest.TestCase):
         mock_get.assert_called_with("https://fr.wikipedia.org/wiki/Le_Plus_Grand_Français_de_tous_les_temps")
 
     @patch.object(requests, "get")
-    def test_get_famous_people_text(self, mock_get):
+    def test_get_famous_peoples_text(self, mock_get):
         mockresponse = Mock()
         mockresponse.text = """<div id="bodyContent">
             <p>Hello</p>
@@ -43,7 +43,20 @@ class TestScraping(unittest.TestCase):
             ("Bob", "\nHello\nHi\nGood morning\n"),
             ("John", "\nHello\nHi\nGood morning\n")
         ])
-        mock_get.assert_called_with("http://example.com/test_3")
+
+    @patch.object(requests, "get")
+    def test_get_famous_people_text(self, mock_get):
+        mockresponse = Mock()
+        mockresponse.text = """<div id="bodyContent">
+            <p>Hello</p>
+            <p>Hi</p>
+            <p>Good morning</p>
+        </div>"""
+        mock_get.return_value = mockresponse
+
+        result = get_famous_people_text(("Paul", "http://example.com/test_1"))
+
+        self.assertEqual(result, ("Paul", "\nHello\nHi\nGood morning\n"))
 
 if __name__ == "__main__":
     unittest.main()
