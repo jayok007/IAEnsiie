@@ -1,24 +1,19 @@
 # coding=utf-8
+
 import firebase_admin
 from firebase_admin import credentials, firestore
 from google.cloud import firestore, exceptions
 import scraping
 
-
-class MyFirestoreClient():
-    def __init__(self):
+class FirestoreClient():
+    def __init__(self, db):
         credentials.ApplicationDefault()
-        self.db = firestore.Client()
-
-    def _list_to_dict(self, _list):
-        _dic = {}
-        for k,v in _list:
-            _dic[k] = v
-        return _dic
+        self.db = db
 
     def set_peoples(self):
         try:
-            self.db.collection('informations').document('peoples').set(self._list_to_dict(scraping.get_famous_peoples()))
+            peoples = dict(scraping.get_famous_peoples())
+            self.db.collection('informations').document('peoples').set(peoples)
         except exceptions.NotFound:
             print('Collection not found !')
 
@@ -35,13 +30,8 @@ class MyFirestoreClient():
         except exceptions.NotFound:
             print('Collection not found !')
 
-    # def get_texts(self):
-    #     try:
-    #         return db.collection('texts').to_dict()
-    #     except exceptions.NotFound:
-    #         print('Collection not found !')
-        
 
 if __name__ == "__main__":
-    firestore_client = MyFirestoreClient()
-    print(firestore_client.set_texts())
+    firestore_client = FirestoreClient(firestore.Client())
+    people = firestore_client.get_text_by_name("Zinédine Zidane")
+    print(people)
