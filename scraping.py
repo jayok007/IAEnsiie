@@ -1,3 +1,4 @@
+# coding=utf-8
 import requests
 from multiprocessing import Pool
 from bs4 import BeautifulSoup
