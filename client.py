@@ -27,7 +27,7 @@ class MyFirestoreClient():
 
     def set_texts(self):
         for k,v in scraping.get_famous_peoples_text(scraping.get_famous_peoples()):
-            return self.db.collection('texts').document(k).set({'text':v})
+            self.db.collection('texts').document(k).set({'text':v})
 
     def get_text_by_name(self, name):
         try:
@@ -44,4 +44,4 @@ class MyFirestoreClient():
 
 if __name__ == "__main__":
     firestore_client = MyFirestoreClient()
-    print(firestore_client.get_peoples())
+    print(firestore_client.set_texts())

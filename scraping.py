@@ -3,8 +3,10 @@ import requests
 from multiprocessing import Pool
 from bs4 import BeautifulSoup
 from os import cpu_count
-
+import re
+import wikipedia
 base_url = "https://fr.wikipedia.org"
+wikipedia.set_lang('fr')
 
 def get_famous_peoples():
     peoples = []
@@ -20,17 +22,11 @@ def get_famous_peoples():
             person = (li.text, url)
             print("Hit url for", li.text)
             peoples.append(person)
-
     return peoples
 
 def get_famous_people_text(people):
     name, url = people
-    req = requests.get(url)
-    if req is not None:
-        soup = BeautifulSoup(req.text, "html.parser")
-        div = soup.find("div", {"id": "bodyContent"})
-        print("Hit text for", name)
-        return (name, div.text)
+    return (name, wikipedia.summary(name))
 
 def get_famous_peoples_text(peoples):
     p = Pool(cpu_count())
