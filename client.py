@@ -18,7 +18,7 @@ class MyFirestoreClient():
 
     def set_peoples(self):
         try:
-            self.db.collection('informations').document('peoples').set(_list_to_dict(scraping.get_famous_peoples()))
+            self.db.collection('informations').document('peoples').set(self._list_to_dict(scraping.get_famous_peoples()))
         except exceptions.NotFound:
             print('Collection not found !')
 
