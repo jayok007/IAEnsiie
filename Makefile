@@ -3,3 +3,6 @@ install:
 
 test:
 	python3 -m unittest discover -p '*_test.py'
+
+populate:
+	python3 populate_db.py

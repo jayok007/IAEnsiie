@@ -18,13 +18,7 @@ def get_famous_people_text(name):
     return (name, wikipedia.summary(name))
 
 def get_famous_peoples_text(peoples):
-    # sequential return list(map(get_famous_people_text, peoples))
     n = cpu_count()
     print("Spawning", n, "threads for the threadpool")
     p = Pool(n)
     return p.map(get_famous_people_text, peoples)
-
-if __name__ == "__main__":
-    peoples = get_famous_peoples()
-    texts = get_famous_peoples_text(peoples)
-    print(texts[0])
