@@ -1,3 +1,4 @@
+# coding=utf-8
 import unittest
 from unittest.mock import patch, Mock, MagicMock
 import scraping
@@ -24,16 +25,16 @@ class TestScraping(unittest.TestCase):
         self.assertEqual(scraping.get_famous_people_text("Paul"), ("Paul", "Beautiful summary of Paul"))
         mock_summary.assert_called_with("Paul")
 
-    # petit problème avec le threadpool, le mock ne marche pas
-    # @patch("wikipedia.summary", return_value="Beautiful summary")
-    # def test_get_famous_peoples_text(self, mock):
-    #     peoples = ["Paul", "Bob", "John"]
+    # don't work on Windows :/
+    @patch("wikipedia.summary", return_value="Beautiful summary")
+    def test_get_famous_peoples_text(self, _):
+        peoples = ["Paul", "Bob", "John"]
 
-    #     self.assertEqual(scraping.get_famous_peoples_text(peoples), [
-    #         ("Paul", "Beautiful summary"),
-    #         ("Bob", "Beautiful summary"),
-    #         ("John", "Beautiful summary")
-    #     ])
+        self.assertEqual(scraping.get_famous_peoples_text(peoples), [
+            ("Paul", "Beautiful summary"),
+            ("Bob", "Beautiful summary"),
+            ("John", "Beautiful summary")
+        ])
 
 if __name__ == "__main__":
     unittest.main()
