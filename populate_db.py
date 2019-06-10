@@ -1,5 +1,4 @@
 # coding=utf-8
-from firebase_admin import credentials
 from google.cloud import firestore
 from scraping import get_famous_peoples, get_famous_peoples_text
 from FirestoreClient import FirestoreClient

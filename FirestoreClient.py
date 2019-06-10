@@ -1,6 +1,7 @@
 # coding=utf-8
 from firebase_admin import credentials
-from google.cloud import firestore, exceptions
+from google.cloud import exceptions
+
 
 class FirestoreClient():
     def __init__(self, db):
@@ -9,16 +10,18 @@ class FirestoreClient():
 
     def set_peoples(self, peoples):
         try:
-            self.db.collection('informations').document('peoples').set(dict(peoples))
+            infos = self.db.collection('informations')
+            infos.document('peoples').set(dict(peoples))
         except exceptions.NotFound:
             print('Collection not found !')
 
     def get_peoples(self):
-        return self.db.collection('informations').document('peoples').get().to_dict()
+        infos = self.db.collection('informations')
+        return infos.document('peoples').get().to_dict()
 
     def set_texts(self, peoples_text):
         for name, text in peoples_text:
-            self.db.collection('texts').document(name).set({ 'text': text })
+            self.db.collection('texts').document(name).set({'text': text})
 
     def get_text_by_name(self, name):
         try:

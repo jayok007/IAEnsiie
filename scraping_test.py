@@ -1,7 +1,10 @@
 # coding=utf-8
 import unittest
-from unittest.mock import patch, Mock, MagicMock
+from unittest.mock import patch, Mock
 import scraping
+
+URL = "https://fr.wikipedia.org/wiki/Le_Plus_Grand_Français_de_tous_les_temps"
+
 
 class TestScraping(unittest.TestCase):
 
@@ -17,12 +20,16 @@ class TestScraping(unittest.TestCase):
         </div>"""
         mock_get.return_value = mockresponse
 
-        self.assertEqual(scraping.get_famous_peoples(), ["Test 1", "Test 2", "Test 3"])
-        mock_get.assert_called_with("https://fr.wikipedia.org/wiki/Le_Plus_Grand_Français_de_tous_les_temps")
+        self.assertEqual(
+            scraping.get_famous_peoples(),
+            ["Test 1", "Test 2", "Test 3"]
+        )
+        mock_get.assert_called_with(URL)
 
     @patch("wikipedia.summary", return_value="Beautiful summary of Paul")
     def test_get_famous_people_text(self, mock_summary):
-        self.assertEqual(scraping.get_famous_people_text("Paul"), ("Paul", "Beautiful summary of Paul"))
+        text = scraping.get_famous_people_text("Paul")
+        self.assertEqual(text, ("Paul", "Beautiful summary of Paul"))
         mock_summary.assert_called_with("Paul")
 
     # don't work on Windows :/
@@ -35,6 +42,7 @@ class TestScraping(unittest.TestCase):
             ("Bob", "Beautiful summary"),
             ("John", "Beautiful summary")
         ])
+
 
 if __name__ == "__main__":
     unittest.main()
