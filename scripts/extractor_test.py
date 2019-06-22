@@ -1,31 +1,44 @@
 import unittest
-from extractor import extracte_date, extract_job, extract_sexe
+from extractor import extract_job, extract_sexe
+from extractor import extract_birthdate, extract_death
+
+dates = [
+    "né le 5 août 1912 et mort le 22 janvier 2007",
+    "né le 28 octobre 1944 mort le 19 juin 1986 à Opio",
+    "née ia le 7 novembre 1867 morte le 4 juillet 1934",
+    "né le 23 juin 1972 à Marseille",
+    "né le 5 septembre 1638 mort le 1er septembre 1715",
+    "née vers 1412 morte aa aa le 30 mai 1431 à Rouen",
+    "né à une date inconnue mort le 28 janvier 814",
+    "né le 1er aout 2020"
+]
 
 
 class TestExtractor(unittest.TestCase):
     def test_birthdate(self):
-        dates = [
-            extracte_date("né le 5 août 1912 et mort le 22 janvier 2007"),
-            extracte_date("né le 28 octobre 1944 mort le 19 juin 1986 à Opio"),
-            extracte_date("née ia le 7 novembre 1867 morte le 4 juillet 1934"),
-            extracte_date("né le 23 juin 1972 à Marseille"),
-            extracte_date("né le 5 septembre 1638 mort le 1er septembre 1715"),
-            extracte_date("née vers 1412 morte aa aa le 30 mai 1431 à Rouen"),
-            extracte_date("né à une date inconnue mort le 28 janvier 814"),
-            extracte_date("né le 1er aout 2020")
-        ]
-
-        self.assertEqual(dates, [
-            ("5 août 1912", "22 janvier 2007"),
-            ("28 octobre 1944", "19 juin 1986"),
-            ("7 novembre 1867", "4 juillet 1934"),
-            ("23 juin 1972", None),
-            ("5 septembre 1638", "1er septembre 1715"),
-            ("vers 1412", "30 mai 1431"),
-            ("à une date inconnue", "28 janvier 814"),
-            ("1er aout 2020", None)
+        self.assertEqual(list(map(extract_birthdate, dates)), [
+            "5 août 1912",
+            "28 octobre 1944",
+            "7 novembre 1867",
+            "23 juin 1972",
+            "5 septembre 1638",
+            "vers 1412",
+            "à une date inconnue",
+            "1er aout 2020"
         ])
-    
+
+    def test_death_date(self):
+        self.assertEqual(list(map(extract_death, dates)), [
+            "22 janvier 2007",
+            "19 juin 1986",
+            "4 juillet 1934",
+            None,
+            "1er septembre 1715",
+            "30 mai 1431",
+            "28 janvier 814",
+            None
+        ])
+
     def test_job(self):
         jobs = [
             extract_job("est un militaire, résistant, homme d'État et écrivain français"),
@@ -37,7 +50,7 @@ class TestExtractor(unittest.TestCase):
             extract_job("Jacques-Yves Cousteau, né le 11 juin 1910 à Saint-André-de-Cubzac (Gironde) et mort le 25 juin 1997 à Paris, est un officier de la Marine nationale et explorateur océanographique français.")
         ]
 
-        self.assertEqual(jobs, 
+        self.assertEqual(jobs,
             [['militaire', 'résistant', "homme d'État", 'écrivain français'],
             ['acteur italien'],
             ['haut fonctionnaire', "homme d'État français"],
@@ -59,7 +72,8 @@ class TestExtractor(unittest.TestCase):
             extract_sexe("Yves Montand, nom de scène d'Ivo Livi, né le 13 octobre 1921 à Monsummano Terme (Italie) et mort le 9 novembre 1991 à Senlis (France), est un chanteur et acteur français d'origine italienne, naturalisé en 1929."),
         ]
 
-        self.assertEqual(sexes, ['M','F','F','M'])
+        self.assertEqual(sexes, ['M', 'F', 'F', 'M'])
+
 
 if __name__ == "__main__":
     unittest.main()

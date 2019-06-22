@@ -2,8 +2,17 @@ import re
 import treetaggerwrapper
 
 
-def extracte_date(text):
-    return (extract_birthdate(text), extract_death(text))
+def extract(people):
+    name, text = people
+    print('Extract infos for', name)
+    return {
+        'name': name,
+        'text': text,
+        'birth_date': extract_birthdate(text),
+        'death_date': extract_death(text),
+        'sexe': extract_sexe(text),
+        'jobs': extract_job(text)
+    }
 
 
 def extract_birthdate(text):
@@ -23,6 +32,7 @@ def extract_death(text):
     if death is not None:
         return death.group(1)
 
+
 def extract_sexe(first_sentence):
     if 'née' in first_sentence:
         return 'F'
@@ -34,18 +44,22 @@ def extract_sexe(first_sentence):
         else:
             return 'M'
 
+
 def extract_job(first_sentence):
     tagger = treetaggerwrapper.TreeTagger(TAGLANG='fr')
-    first_sentence = first_sentence.split('est') [1]
-    tags = treetaggerwrapper.make_tags(tagger.tag_text(first_sentence), allow_extra=True)
-    
+    first_sentence = first_sentence.split('est')[1]
+    tags = treetaggerwrapper.make_tags(
+        tagger.tag_text(first_sentence),
+        allow_extra=True
+    )
+
     #  Tags that seperate two jobs
-    between_tags = ['KON','PUN']
+    between_tags = ['KON', 'PUN']
     # End of jobs tags
-    end_tags = ['VERB','SENT','VER:pper']
+    end_tags = ['VERB', 'SENT', 'VER:pper']
     # Tags that are useless
     remove_tags = ['DET:ART']
-    
+
     jobs = []
     job = ''
     for i, tag in enumerate(tags):

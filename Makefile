@@ -2,7 +2,7 @@ install:
 	pip3 install -r requirements.txt
 
 test:
-	python3 -m unittest discover -p '*_test.py'
+	TAGDIR=tree-tagger/ python3 -m unittest discover -s scripts -p '*_test.py'
 
 populate:
-	python3 populate_db.py
+	TAGDIR=tree-tagger/ scripts/populate_db.py
