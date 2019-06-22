@@ -1,6 +1,6 @@
 import unittest
-from extractor import extract_job, extract_sexe
-from extractor import extract_birthdate, extract_death
+from scripts.extractor import extract_job, extract_sexe
+from scripts.extractor import extract_birthdate, extract_death
 
 dates = [
     "né le 5 août 1912 et mort le 22 janvier 2007",

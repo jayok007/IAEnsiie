@@ -1,7 +1,7 @@
 # coding=utf-8
 import unittest
 from unittest.mock import patch, Mock
-import scraping
+from scripts import scraping
 
 URL = "https://fr.wikipedia.org/wiki/Le_Plus_Grand_Français_de_tous_les_temps"
 

@@ -9,3 +9,7 @@ class FirestoreClient():
         for people in peoples:
             infos = self.db.collection('peoples')
             infos.document(people['name']).set(people)
+
+    def get_peoples(self):
+        collection = self.db.collection('peoples').get()
+        return [c.to_dict() for c in collection]
