@@ -6,7 +6,7 @@
           Qui est-ce ?
         </h1>
         <h2 class="subtitle">
-          Devinez qui est la célébrité !
+          Devine qui est la célébrité !
         </h2>
       </div>
     </div>
