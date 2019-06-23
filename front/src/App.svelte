@@ -81,13 +81,6 @@
 
     <button
       class="button is-info"
-      on:click={validate}
-      disabled={isWinning}
-    >
-      Valider
-    </button>
-    <button
-      class="button is-info"
       disabled={isWinning}
       on:click={displayQuestion}
     >
