@@ -1,6 +1,6 @@
 <script>
-  export let question;
-  export let color;
+  export let question
+  export let color
 </script>
 
 <style>

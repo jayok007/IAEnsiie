@@ -1,47 +1,65 @@
 <script>
-  import { onMount } from 'svelte';
-  import Question from './components/Question.svelte';
+  import { onMount } from 'svelte'
+  import Header from './components/Header.svelte'
+  import Question from './components/Question.svelte'
 
-  let response = '';
+  let response = ''
+  let people = null
+  let questions = []
+  let isWinning = false
 
-  onMount(() => {
-    console.log('coucou')
-    fetch('/api/peoples')
-      .then(console.log)
+  function fetchRandomPeople() {
+    fetch('/api/random-people')
+      .then(res => res.json())
+      .then(p => people = p)
       .catch(console.error)
-  })
+  }
+
+  function validate(event) {
+    isWinning = response.toLowerCase() === people.name.toLowerCase()
+  }
+
+  onMount(fetchRandomPeople)
 </script>
 
 <style>
-  .input {
+  .input, .button {
     margin-top: 10px;
   }
 </style>
 
-<svelte:head>
-	<title>Qui est-ce ?</title>
-</svelte:head>
-
-<header>
-  <section class="hero is-primary">
-    <div class="hero-body">
-      <div class="container">
-        <h1 class="title">
-          Qui est-ce ?
-        </h1>
-        <h2 class="subtitle">
-          Devinez qui est la célébrité !
-        </h2>
-      </div>
-    </div>
-  </section>
-</header>
-
+<Header></Header>
 <main>
   <div class="container">
-    <input class="input is-large" type="text" placeholder="Qui est-ce ?" bind:value={response}>
-    {response}
-    <Question question="he ?" color="is-info"></Question>
-    <Question question="ha ?" color="is-warning"></Question>
+    <input
+      class="input is-info is-large"
+      type="text" placeholder="Qui est-ce ?"
+      disabled={isWinning}
+      bind:value={response}
+      on:keyup={validate}
+    >
+
+    <button
+      class="button is-info"
+      on:click={validate}
+      disabled={isWinning}
+    >
+      Valider
+    </button>
+    <button
+      class="button is-info"
+      disabled={isWinning}
+    >
+      Nouvelle question
+    </button>
+    <button
+      class="button is-info"
+      disabled={isWinning}
+    >
+      Je donne ma langue au chat
+    </button>
+    <button class="button is-info" disabled={!isWinning}>Recommencer</button>
+
+    <Question question="he ?" color="is-warning"></Question>
   </div>
 </main>
