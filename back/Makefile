@@ -15,6 +15,10 @@ run.dev:
 	FLASK_APP=flaskr/app.py \
 	flask run
 
+run:
+	GOOGLE_APPLICATION_CREDENTIALS=$$PWD/cred.json \
+	gunicorn flaskr.app:app -b0.0.0.0:5000
+
 .PHONY: clean
 clean:
 	rm -rf __pycache__ **/__pycache__

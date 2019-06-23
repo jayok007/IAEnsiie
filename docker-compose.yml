@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  sapper:
+    build: ./front
+    ports:
+      - "80:80"
+    networks:
+      - "web"
+
+  flask:
+    build: ./back
+    networks:
+      - "web"
+
+networks:
+  web:
+    driver: bridge
