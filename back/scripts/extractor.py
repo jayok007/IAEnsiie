@@ -33,7 +33,8 @@ def extract_death(text):
         return death.group(1)
 
 
-def extract_sexe(first_sentence):
+def extract_sexe(text):
+    first_sentence = text.split('.')[0]
     if 'née' in first_sentence:
         return 'F'
     elif 'né' in first_sentence:
@@ -54,11 +55,11 @@ def extract_job(first_sentence):
     )
 
     #  Tags that seperate two jobs
-    between_tags = ['KON', 'PUN']
+    between_tags = ['KON', 'PUN', 'ADV']
     # End of jobs tags
     end_tags = ['VERB', 'SENT', 'VER:pper']
     # Tags that are useless
-    remove_tags = ['DET:ART']
+    remove_tags = ['DET:ART', 'NUM', 'PRP:det']
 
     jobs = []
     job = ''
