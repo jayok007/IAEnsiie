@@ -46,7 +46,54 @@ def extract_sexe(text):
             return 'M'
 
 
-def extract_job(first_sentence):
+def extract_job(text):
+    tagger = treetaggerwrapper.TreeTagger(TAGLANG='fr')
+    first_sentence = text.split('.')[0]
+    if 'est' in first_sentence:
+        first_sentence = first_sentence.split('est')[1]
+    tags = treetaggerwrapper.make_tags(
+        tagger.tag_text(first_sentence),
+        allow_extra=True
+    )
+
+    #  Tags that seperate two jobs
+    between_tags = ['KON', 'PUN', 'ADV']
+    # End of jobs tags
+    end_tags = ['VERB', 'SENT', 'VER:pper', 'PRO:REL']
+    # Tags that are useless
+    remove_tags = ['DET:ART', 'NUM', 'PRP:det']
+
+    jobs = []
+    job = ''
+    for i, tag in enumerate(tags):
+        # If end
+        if tag.pos in end_tags:
+            if job != '':
+                jobs.append(job)
+            break
+        # If we don't care (un, une for example)
+        elif tag.pos in remove_tags:
+            continue
+        # If between job tag
+        elif tag.pos in between_tags:
+            if job != '':
+                jobs.append(job)
+                job = ''
+        # If ok tag
+        else:
+            if job != '' and job[-1] != '\'':
+                job += ' '
+            job += tag.word
+
+        # If end of string
+        if i == (len(tags) - 1):
+            if job != '':
+                jobs.append(job)
+
+    return jobs
+
+
+def extract_song(text):
     tagger = treetaggerwrapper.TreeTagger(TAGLANG='fr')
     first_sentence = first_sentence.split('est')[1]
     tags = treetaggerwrapper.make_tags(
