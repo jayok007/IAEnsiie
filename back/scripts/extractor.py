@@ -57,7 +57,7 @@ def extract_job(first_sentence):
     #  Tags that seperate two jobs
     between_tags = ['KON', 'PUN', 'ADV']
     # End of jobs tags
-    end_tags = ['VERB', 'SENT', 'VER:pper']
+    end_tags = ['VERB', 'SENT', 'VER:pper', 'PRO:REL']
     # Tags that are useless
     remove_tags = ['DET:ART', 'NUM', 'PRP:det']
 
