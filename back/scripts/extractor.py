@@ -1,5 +1,6 @@
 import re
 import treetaggerwrapper
+from nltk import sent_tokenize
 
 
 def extract(people):
@@ -55,9 +56,11 @@ def _is_name_present(names, value):
 
 def extract_job(name, text):
     tagger = treetaggerwrapper.TreeTagger(TAGLANG='fr')
-    first_sentence = text.split('.')[0]
+    first_sentence = sent_tokenize(text)[0]
     if 'est' in first_sentence:
         first_sentence = first_sentence.split('est')[1]
+    # Remove text between parentheses
+    first_sentence = re.sub(r" ?\([^)]+\)", "", first_sentence)
     tags = treetaggerwrapper.make_tags(
         tagger.tag_text(first_sentence),
         allow_extra=True
