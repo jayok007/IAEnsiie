@@ -11,7 +11,7 @@ def extract(people):
         'birth_date': extract_birthdate(text),
         'death_date': extract_death(text),
         'sexe': extract_sexe(text),
-        'jobs': extract_job(text)
+        'jobs': extract_job(name, text)
     }
 
 
@@ -46,7 +46,14 @@ def extract_sexe(text):
             return 'M'
 
 
-def extract_job(text):
+def _is_name_present(names, value):
+    for word in value.split():
+        if word in names and len(word) > 3:
+            return True
+    return False
+
+
+def extract_job(name, text):
     tagger = treetaggerwrapper.TreeTagger(TAGLANG='fr')
     first_sentence = text.split('.')[0]
     if 'est' in first_sentence:
@@ -54,8 +61,8 @@ def extract_job(text):
     tags = treetaggerwrapper.make_tags(
         tagger.tag_text(first_sentence),
         allow_extra=True
-    )
-
+    )    
+    names = name.split(' ')
     #  Tags that seperate two jobs
     between_tags = ['KON', 'PUN', 'ADV']
     # End of jobs tags
@@ -68,7 +75,7 @@ def extract_job(text):
     for i, tag in enumerate(tags):
         # If end
         if tag.pos in end_tags:
-            if job != '':
+            if job != '' and not _is_name_present(names, job):
                 jobs.append(job)
             break
         # If we don't care (un, une for example)
@@ -77,7 +84,8 @@ def extract_job(text):
         # If between job tag
         elif tag.pos in between_tags:
             if job != '':
-                jobs.append(job)
+                if job != '' and not _is_name_present(names, job):
+                    jobs.append(job)
                 job = ''
         # If ok tag
         else:
@@ -87,52 +95,7 @@ def extract_job(text):
 
         # If end of string
         if i == (len(tags) - 1):
-            if job != '':
-                jobs.append(job)
-
-    return jobs
-
-
-def extract_song(text):
-    tagger = treetaggerwrapper.TreeTagger(TAGLANG='fr')
-    first_sentence = first_sentence.split('est')[1]
-    tags = treetaggerwrapper.make_tags(
-        tagger.tag_text(first_sentence),
-        allow_extra=True
-    )
-
-    #  Tags that seperate two jobs
-    between_tags = ['KON', 'PUN', 'ADV']
-    # End of jobs tags
-    end_tags = ['VERB', 'SENT', 'VER:pper', 'PRO:REL']
-    # Tags that are useless
-    remove_tags = ['DET:ART', 'NUM', 'PRP:det']
-
-    jobs = []
-    job = ''
-    for i, tag in enumerate(tags):
-        # If end
-        if tag.pos in end_tags:
-            if job != '':
-                jobs.append(job)
-            break
-        # If we don't care (un, une for example)
-        elif tag.pos in remove_tags:
-            continue
-        # If between job tag
-        elif tag.pos in between_tags:
-            if job != '':
-                jobs.append(job)
-                job = ''
-        # If ok tag
-        else:
-            if job != '' and job[-1] != '\'':
-                job += ' '
-            job += tag.word
-
-        # If end of string
-        if i == (len(tags) - 1):
-            if job != '':
+            if job != '' and not _is_name_present(names, job):
                 jobs.append(job)
 
     return jobs

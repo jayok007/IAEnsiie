@@ -41,15 +41,15 @@ class TestExtractor(unittest.TestCase):
 
     def test_job(self):
         jobs = [
-            extract_job("est un militaire, résistant, homme d'État et écrivain français"),
-            extract_job("Lino Ventura est un acteur italien, né le 14 juillet 1919"),
-            extract_job("mort le 2 avril 1974 à Paris, est un haut fonctionnaire et homme d'État français."),
-            extract_job("Victor est un poète, dramaturge, prosateur, romancier et dessinateur romantique français, né le 26 février"),
-            extract_job("Émile Zola est un écrivain et journaliste français, né le 2 avril 1840 à Paris, où il est mort le 29 septembre 1902"),
-            extract_job("Jean Gabin, à l'état civil Jean Gabin Alexis Moncorgé1, est un acteur français, né le 17 mai 1904 à Paris (9e arr.) et mort le 15 novembre 1976 à Neuilly-sur-Seine."),
-            extract_job("Jacques-Yves Cousteau, né le 11 juin 1910 à Saint-André-de-Cubzac (Gironde) et mort le 25 juin 1997 à Paris, est un officier de la Marine nationale et explorateur océanographique français."),
-            extract_job("Henri Grouès, dit l’abbé Pierre, né le 5 août 1912 à Lyon et mort le 22 janvier 2007 dans le 5e arrondissement de Paris, est un prêtre catholique français, d'abord capucin, puis du diocèse de Grenoble (1939), résistant, puis député, fondateur du mouvement Emmaüs (organisation non confessionnelle de lutte contre l'exclusion) comprenant la Fondation Abbé-Pierre pour le logement des défavorisés et de nombreuses autres associations, fondations et entreprises de l'économie sociale en France."),
-            extract_job("Gustave Eiffel, né Bonickhausen dit Eiffel le 15 décembre 1832 à Dijon et mort le 27 décembre 1923 à Paris, est un ingénieur centralien et un industriel français, qui a notamment participé à la construction de la tour Eiffel à Paris, du viaduc de Garabit et de la statue de la Liberté à New York.")
+            extract_job("Charles De Gaulle", "est un militaire, résistant, homme d'État et écrivain français"),
+            extract_job("Lino Ventura", "Lino Ventura est un acteur italien, né le 14 juillet 1919"),
+            extract_job("Georges Pompidou", "mort le 2 avril 1974 à Paris, est un haut fonctionnaire et homme d'État français."),
+            extract_job("Victor Hugo", "Victor est un poète, dramaturge, prosateur, romancier et dessinateur romantique français, né le 26 février"),
+            extract_job("Emile Zola", "Émile Zola est un écrivain et journaliste français, né le 2 avril 1840 à Paris, où il est mort le 29 septembre 1902"),
+            extract_job("Jean Gabin", "Jean Gabin, à l'état civil Jean Gabin Alexis Moncorgé1, est un acteur français, né le 17 mai 1904 à Paris (9e arr.) et mort le 15 novembre 1976 à Neuilly-sur-Seine."),
+            extract_job("Jacques-Yves Cousteau", "Jacques-Yves Cousteau, né le 11 juin 1910 à Saint-André-de-Cubzac (Gironde) et mort le 25 juin 1997 à Paris, est un officier de la Marine nationale et explorateur océanographique français."),
+            extract_job("Henri Grouès", "Henri Grouès, dit l’abbé Pierre, né le 5 août 1912 à Lyon et mort le 22 janvier 2007 dans le 5e arrondissement de Paris, est un prêtre catholique français, d'abord capucin, puis du diocèse de Grenoble (1939), résistant, puis député, fondateur du mouvement Emmaüs (organisation non confessionnelle de lutte contre l'exclusion) comprenant la Fondation Abbé-Pierre pour le logement des défavorisés et de nombreuses autres associations, fondations et entreprises de l'économie sociale en France."),
+            extract_job("Gustave Eiffel", "Gustave Eiffel, né Bonickhausen dit Eiffel le 15 décembre 1832 à Dijon et mort le 27 décembre 1923 à Paris, est un ingénieur centralien et un industriel français, qui a notamment participé à la construction de la tour Eiffel à Paris, du viaduc de Garabit et de la statue de la Liberté à New York.")
         ]
 
         self.assertEqual(jobs,[
